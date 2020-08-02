@@ -1,3 +1,5 @@
+import 'package:clima/screens/city_screen.dart';
+import 'package:clima/screens/location_screen.dart';
 import 'package:flutter/material.dart';
 import 'screens/loading_screen.dart';
 
@@ -11,7 +13,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark(),
-      home: LoadingScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => LoadingScreen(),
+        '/location': (context) => LocationScreen(),
+        '/city': (context) => CityScreen()
+      },
     );
   }
 }

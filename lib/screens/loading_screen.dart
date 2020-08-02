@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import '../services/weather.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -10,22 +12,24 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    print('Widget initialized');
-//    getLocation();
+    getLocationWheatherData();
   }
-  void getLocation() async{
-    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-    print(position);
+
+  void getLocationWheatherData() async {
+    WeatherModel weatherModel = WeatherModel();
+    var weatherData = await weatherModel.getLocationWeather();
+    Timer.run(() {
+      Navigator.pushNamed(context, '/location', arguments: weatherData);
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            getLocation();
-          },
-          child: Text('Get Location'),
+        child: SpinKitDoubleBounce(
+          color: Colors.white,
+          size: 100.0,
         ),
       ),
     );
