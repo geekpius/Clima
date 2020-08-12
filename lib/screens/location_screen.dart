@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 
 class LocationScreen extends StatefulWidget {
+  final dynamic weatherData;
+
+  LocationScreen({@required this.weatherData});
+
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
@@ -17,12 +21,7 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      setState(() {
-        final arguments = ModalRoute.of(context).settings.arguments;
-        updateUI(arguments);
-      });
-    });
+    updateUI(widget.weatherData);
   }
 
   void updateUI(dynamic weatherData) {
@@ -77,7 +76,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   FlatButton(
                     onPressed: () async {
                       var typedName =
-                          await Navigator.pushNamed(context, '/city');
+                          await Navigator.of(context).pushNamed('/city');
                       if (typedName != null) {
                         var weatherData =
                             await weatherModel.getCityWeather(typedName);
